@@ -1,0 +1,73 @@
+		Requisitos trabalho de implementação DOX
+
+	O foco da A2 é o projeto e implementação de um programa que simule a gerência de processos de um sistema operacional, com foco no escalonamento.
+
+	Assitom e Nareba -> Lottery Scheduling 
+
+ 	    "Processes are each assigned some number of lottery tickets, and the scheduler draws a random ticket to select the next process.
+	 The distribution of tickets need not be uniform; granting a process more tickets provides it a relative higher chance of selection." 	
+
+	1)Iniciar
+		1.1)Solicitar 'carga de trabalho'
+			1.1.1)Nome do processo
+			1.1.2)Instante de chegada (Manda um getTime mesmo?)
+			1.1.3)Tempo de Execução (kick)
+			1.1.4)Mais informações necessárias (Creio que no nosso caso, só o "nice" do proc, para distribuirmos mais tikets pra ele)
+			1.1.5)Finaliza com uma linha vazia (what?)
+		1.2)Começa a simular o escalonamento 
+			1.2.1)Criar lista de PCBs
+			1.2.2)Criar lista de processos 'Executando'
+			1.2.3)Criar lista de processos 'Pronto'
+			1.2.4)Criar lista de processos 'Bloqueado'
+			1.2.5)Criar lista de processos 'Terminado'
+	2) Iteração no programa pode representar a passagem de tempo, tanto quanto uma interrupção do timer ou término de um quantum de tempo (Tava preocupado com isso :D)
+	3) Ordenar a lista de 'prontos' de acordo com o critério de escalonamento (Ou seja, na sequência de tikets sorteados)
+	4) Tarefas do sistema
+		4.1)Escalonar significa mover o ponteiro do primeiro da lista de Prontos para Executando
+		4.2)Executar é só decrementar o tempo restate dentro do PCB do processo que está "Executando"
+			4.2.1)O programa deve mostrar em tela qual o processo que está sendo executado
+		4.3)Preemptar significa mover o PCB de Executando pra Pronto e fazer os ajustes.
+		4.4) Em 5% das "execuções", o processo será desbloqueado, e em outros 5%, um será desbloqueado. (Podemos usar um sorteio de, entre 100 'tickets', 
+		     5 bloqueiam e 5 desbloqueiam.
+		4.5) Quando um processo acabar de executar, ele vai para a lista de pronto (ORLY)
+		
+	5)Quando todos os processos carregados terminarem a execução, o programa deve exibir estatisticas (??????)
+		
+
+*************COPIA do MOODLE************
+
+Atividade prática A2
+
+Descrição geral
+
+A atividade prática A2 visa avaliar as habilidades de projeto e implementação de de aplicativos que implementam as funções de Sistemas Operacionais modernos. A atividade prática A2 corresponde à implementação de um programa de computador que simule o gerenciamento de processos de um Sistema Operacional, com foco no escalonamento. Ele deve iniciar solicitando ao usuário para inserir a "carga de trabalho", ou seja, o conjunto de tarefas a serem escalonadas, o que inclui seu nome, instante de chegada, tempo de execução e demais informações necessárias ao escalonamento. Após essa inserção ser finalizada (com uma linha vazia), o sistema passa a simular seu escalonamento. Para isso, ele deve criar uma lista de PCBs, lista de processos 'Executando', lista de processos no estado 'Pronto', lista de processos no estado 'Bloqueado' e lista de processos no estado 'Terminado'. Uma iteração no programa principal pode representar a passagem de tempo e a ocorrência de uma interrupção do timer ou do término de um quantum de tempo, o que dispara a ação do escalonador. O escalonador deve ordenar a lista de processos no estado 'Pronto' conforme seu critério de escalonamento e possivelmente outras ações necessárias. Escalonar então geralmente significa mover o ponteiro para o primeiro PCB da lista 'Prontos' para 'Executando', ajustando o estado do processo. Executar significa apenas decrementar o tempo de execução restante no PCB adequado. A cada iteração o programa deve mostrar na tela o nome do programa que está executando naquele instante. Preemptar sigifica mover o PCB de 'Executando' para 'Pronto', e ajustar os ponteiros das listas. O bloqueio ocorrerá com probabilidade de cerca de 5%, e corresponde a mudar o PCB de 'Executando' para 'Bloqueado' e ajustar os ponteiros nas listas. O desbloqueio ocorre de forma análoga. Quando o tempo de execução restante chegar a zero, o PCB passa de 'Executando' para 'Terminado', e deve-se ajustar os ponteiros das listas. A simulação termina quando o tamanho da lista 'Terminados' for igual ao tamanho da tabela de processos (lista de PCBs), ou seja, todos os processos carregados na memória estão 'Terminados'. Nesse momento o programa deve apresentar estatísticas sobre o escalonamento e terminar.
+
+Quem desejar, pode substituir essa atividade prática por outra, que corresponde à implementação de um algoritmo de escalonamento num sistema operacional real, que é o EPOS e assim fazer escalonamento de threads reais, em nível de sistema operacional. Esse trabalho não exige a implementação de qualquer lista ou estrutura de dados para gerenciamento de processos ou threads, mas exige bons conhecimentos de programação C++ e a criação de threads reais no EPOS para realizar o escalonamento. Quem optar por essa atividade alternativa, deve contactar o professor para obter mais informações (PS: o código do EPOS já está disponível no site do LISHA)
+
+Detalhamento
+
+A inserção da carga de trabalho deve ser de um processo por linha, com as informações separadas por espaço. O programa deve informar ao usuário quais são as informações que ele aguarda. O tempo avança de 1 em 1, a partir do tempo 0. A cada instante de tempo, deve-se apresentar na tela o instante atual e os processos que estão na lista 'Executando'. Deve-se coletar as seguintes informações sobre o escalonamento e execução dos processos: (i) instante em que o processo é escalonado pela primeira vez, o que permite calcular o tempo de resposta, (ii) instante em que o processo é terminado, o que permite calcular o turnaround e a fração de tempo de CPU utilizada pelo processo e o tempo de espera. Esses valores, para cada processo, e uma média de todos os processos, devem ser apresentados quando a simulação terminar.
+
+Alguns algoritmos de escalonamento, em especial os de tempo-real, aceitam processos periódicos, ou seja, procesos que são executados em intervalos regulares. Nesses casos, o período de cada processo deve ser inserido pelo usuário, juntamente com as demais informações do processo (o que inclui a deadline relativa, em processos de tempo-real). Além disso, mudam os seguintes aspectos em relação ao que foi descrito anteriormente: (1) A cada iteração, varre-se a lista de 'Terminados' verificando se o tempo atual é um múltiplo do 'Período' daquele processo. Se for, então ele deve ser reativado, ou seja, o PCB passa de 'Terminado' para 'Pronto', e ajustam-se os ponteiros das listas, e (2)  como os processos 'Terminados' podem ser reexecutados, a simulação não pára quando todos os processos estão terminados. O critério de parada passa a ser quando o tempo atual do sistema for igual a dez vezes o maior período de atividação dos processos. Nos casos de escalonamento de tempo-real, deve-se também calcular a seguinte estatística para cada processo, sempre que ele é terminado: a maior diferença entre o tempo atual e a deadline absoluta do processo (que deveria ser menor ou igual a zero se ele executou dentro do prazo, ou positiva, se ele atrasou).
+
+Orientações e Restrições
+
+A atividade prática A2 deve ser realizada em equipes de duas pessoas ou três pessoas. Não serão aceitos trabalhos com menos do que dois ou mais do que três integrantes. É importante ressaltar que as equipes devem alternar-se ao longo das demais atividades práticas do semestre. Portanto, não será permitido que a mesma dupla que realiza a atividade prática A2 seja a mesma que realizou a atividade A1 e nem que se repita em qualquer atividade prática posterior.
+
+Também não será permitido que mais de uma equipe implemente o mesmo algoritmo de escalonamento. Portanto, cada equipe precisa escolher  um algoritmo de escalonamento que ainda não tenha sido escolhido por nenhuma equipe. Cada equipe precisa verificar o que as demais equipes já escolheram, observando o tópico correspondente no fórum de discussão da disciplina, e escolher algoritmos de escalonamento diferentes (nenhuma chamada deve ser igual a de outras equipes).
+
+Há algoritmos mais simples e outros mais complexos. Os mais simples serão implementados por equipes de duas pessoas, enquanto os mais complexos aceitam equipes de três pessoas. A relação de algoritmos de escalonamento está abaixo.
+
+Para equipes de duas pessoas (todos preemptivos): (1) Round-Robin com quantum único, (2) Round-Robin com quantum diferente, conforme prioridade; (3) Shortest Remaining Time Next; (4) Prioridade dinâmica; (5) Fair Share Scheduling; (6) Filas múltiplas com quantum diferente; (7) Lottery Scheduling; (8) Highest Response Ratio Next; etc 
+
+Para equipes de três pessoas (Tempo-Real): (1) Earliest Deadline First ; (2) Rate Monotonic; (3) Minimum Laxity First; (4) Background Scheduling; (5) Pooling Server; etc <<Outros algoritmos de escalonamento podem ser obtidos em livros de sistemas de tempo-real>>
+
+O programa deve ser implementado preferencialmente em C++. A única alternativa aceita é implementá-lo em C. Melhorias e incrementos nos requisitos mínimos apresentados serão considerados e melhorarão a nota da equipe. Cópias indevidas não serão toleradas. Todos os integrantes da equipe devem ter pleno domínio do programa que foi desenvolvido.
+
+Entre as melhorias consideradas, estão a engenharia de software do sistema e sua modelagem conforme a orientação a objetos, a representação de sistemas multiprocessados/multicore, escalonamento multicore (em adicação ao escalonamento num processador), visualizações da simulação e das estatísticas, possibilidade de alterar/configurar o algoritmo de escalonamento simulado, etc
+
+A entrega da atividade prática 2 se dará exclusivamente pelo ambiente Moodle, pelo upload de um único arquivo nesta tarefa (Atividade prática A2). O arquivo que se deve fazer o upload é o arquivo compactado (zip, tar.gz) da pasta que deve conter: (i) todos os arquivos do código-fonte, o (ii) o arquivo executável compilado, e (iii) um pequeno arquivo-texto que deve ter o nome da equipe, o algoritmo de escalonamento simulado e instruções para compilação do código . A entrega deve ocorrer até às 08:00 do dia 30/04/2014 (ou seja, antes da aula de laboratório). Entregas a partir desse horário sofrerão desconto de 3 pontos por dia. Entregas que não seguirem as instruções dadas também sofrerão desconto.
+
+Esta atividade será avaliada em relação à habilidade dos integrantes da equipe de projetar (modelar, estruturar, organizar código) e implementar programas de computador que implementem as funções de um Sistema Operacional Moderno. Nesse sentido, será verificado se o programa atende os requisitos mínimos exigidos (insere dados suficientes para escalonamento, gerencia estruturas de dados necessárias aos processos, simula o escalonamento corretamente e coleta estatísticas), se executa corretamente, sem travamentos ou comportamentos inesperados, e se cada um dos integrantes tem domínio sobre o funcionamento do programa, ou seja, sabe o que o programa faz, como foi implementado e foi um de seus autores.
+
+Qualquer dúvida sobre a realização desta atividade pode ser exposta ao professor nas aulas presenciais ou no ambiente Moodle.
