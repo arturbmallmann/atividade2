@@ -1,19 +1,21 @@
-CC=gcc
+CC=g++
 CFLAGS=-c -Wall
 CLIBS=-lpthread
-all:macacos
+EXE=escalonador
 
-macacos: macacos.o main.o
-	${CC} ${CLIBS} macacos.o main.o -o macacos
+all:${EXE}
 
-macacos.o: macacos.c
-	${CC} ${CFLAGS} macacos.c
+${EXE}: decker.o processoDix.o
+	${CC} ${CLIBS} decker.o processoDix.o -o ${EXE}
 
-main.o: main.c
-	${CC} ${CFLAGS} main.c
+decker.o: decker.cpp
+	${CC} ${CFLAGS} decker.cpp
+
+processoDix.o: processoDix.cpp
+	${CC} ${CFLAGS} processoDix.cpp
 
 clean:
-	rm -rf *.o macacos
+	rm -rf *.o ${EXE}
 
 test:
-	./macacos
+	./${EXE}
