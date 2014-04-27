@@ -24,12 +24,14 @@ processoDix criarProcesso(string entrada) {
     string stringTempoExecucao = parametros[2];
     //assumindo que ja tá tratado essa porra
     double tempoExecucao = ::atof(stringTempoExecucao.c_str());
+	double chegada = ::atof(instanteChegada.c_str());
     int nice = ::atoi(parametros[3].c_str());
     //criando processo
     // Padrão: Nome instanteChegada TempoExec Nice
+	Pcb process=Pcb(nome,chegada,tempoExecucao,nice);
 }
 
-int porprocesso
+//int porprocesso
 
 
 int main(int argc, char** argv) {

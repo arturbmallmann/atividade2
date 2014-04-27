@@ -11,9 +11,15 @@
 #include <vector>
 #include <sstream>
 #include "processoDix.h"
+#include "Pcb.h"
 #include "Hash.hpp"
 using namespace std;
+typedef Hash<Pcb> Procs;
+Procs ready;
+Procs locked;
+Pcb running;
 
 processoDix criarProcesso(string entrada);
+
 
 #endif
