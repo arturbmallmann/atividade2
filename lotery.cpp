@@ -10,6 +10,7 @@
 #include <vector>
 #include <sstream>
 #include "processoDix.h"
+#include "Hash.hpp"
 using namespace std;
 
 processoDix criarProcesso(string entrada) {
