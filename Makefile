@@ -14,9 +14,6 @@ lotery.o: lotery.cpp
 processoDix.o: processoDix.cpp
 	${CC} ${CFLAGS} processoDix.cpp
 
-#Hash.o: Hash.cpp
-#	${CC} ${CFLAGS} Hash.cpp
-
 clean:
 	rm -rf *.o ${EXE}
 

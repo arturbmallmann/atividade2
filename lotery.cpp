@@ -40,6 +40,9 @@ lotery::lotery(){
 			prontos.put(aux);
 	}while(aux != 0);
 }
+lotery::~lotery(){
+
+}
 int main(int argc,char** argv){
 	lotery lotery;
 }

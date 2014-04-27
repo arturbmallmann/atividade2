@@ -11,8 +11,8 @@
 #include <vector>
 #include <sstream>
 #include <iostream>
+#include "Hash.h"
 #include "processoDix.h"
-#include "Hash.hpp"
 using namespace std;
 class lotery{
 	private:

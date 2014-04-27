@@ -1,12 +1,20 @@
-#ifndef HASH_HPP
-#define HASH_HPP
+#ifndef LISTA_HPP_
+#define LISTA_HPP_
+#include "Hash.h"
 template <class Tipo>
-class Hash{
-	public:
-		Hash();
-		virtual ~Hash();
-		int put(Tipo &dado);
-		Tipo* get(const int chave);
-	private:
-};
+Hash<Tipo>::Hash(){
+		
+}
+template <class Tipo>
+Hash<Tipo>::~Hash(){
+
+}
+template <class Tipo>
+int Hash<Tipo>::put(Tipo *dado){
+
+}
+template <class Tipo>
+Tipo* Hash<Tipo>::get(const int chave){
+	return 0;
+}
 #endif
