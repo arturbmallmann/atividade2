@@ -5,7 +5,7 @@ Hash<Tipo>::Hash(){
 		
 }
 template <class Tipo>
-int Hash<Tipo>::put(const Tipo &dado){
+int Hash<Tipo>::put(Tipo &dado){
 
 }
 template <class Tipo>

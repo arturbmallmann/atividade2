@@ -10,16 +10,21 @@
 #include <iosfwd>
 #include <vector>
 #include <sstream>
+#include <iostream>
 #include "processoDix.h"
-#include "Pcb.h"
 #include "Hash.hpp"
 using namespace std;
-typedef Hash<Pcb> Procs;
-Procs ready;
-Procs locked;
-Pcb running;
-
-processoDix criarProcesso(string entrada);
-
-
+class lotery{
+	private:
+		typedef Hash<processoDix> Procs;
+		Procs pcbs;
+		Procs executando;
+		Procs prontos;
+		Procs bloqueados;
+		Procs terminados;
+	public:		
+		lotery();
+		virtual ~lotery();
+		processoDix *criarProcesso(string entrada);
+};
 #endif

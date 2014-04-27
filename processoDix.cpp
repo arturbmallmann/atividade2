@@ -7,7 +7,7 @@
 
 #include "processoDix.h"
 
-processoDix::processoDix(std::string nome, std::string instanteChegada, int tempoExecucao, int nice) {
+processoDix::processoDix(std::string nome, double instanteChegada, int tempoExecucao, int nice) {
     this->nome = nome;
     this->instanteChegada = instanteChegada;
     this->nice = nice;
@@ -17,7 +17,9 @@ processoDix::processoDix(std::string nome, std::string instanteChegada, int temp
 void processoDix::mudarEstado(processoDix::estados novoEstado) {
     this->estadoAtual = novoEstado;
 }
+int processoDix::executar(){
 
+}
 processoDix::~processoDix() {
 
 }

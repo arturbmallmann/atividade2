@@ -5,7 +5,7 @@ class Hash{
 	public:
 		Hash();
 		virtual ~Hash();
-		int put(const Tipo &dado);
+		int put(Tipo &dado);
 		Tipo* get(const int chave);
 	private:
 };
