@@ -5,12 +5,8 @@
  * Created on April 24, 2014, 8:55 AM
  */
 
-#include <cstdlib>
-#include <iosfwd>
-#include <vector>
-#include <sstream>
-#include "processoDix.h"
-#include "Hash.hpp"
+#include "lotery.h"
+
 using namespace std;
 
 processoDix criarProcesso(string entrada) {
@@ -32,6 +28,9 @@ processoDix criarProcesso(string entrada) {
     //criando processo
     // Padrão: Nome instanteChegada TempoExec Nice
 }
+
+int porprocesso
+
 
 int main(int argc, char** argv) {
 
