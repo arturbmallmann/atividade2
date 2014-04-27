@@ -31,8 +31,6 @@ processoDix criarProcesso(string entrada) {
     int nice = ::atoi(parametros[3].c_str());
     //criando processo
     // Padrão: Nome instanteChegada TempoExec Nice
-
-
 }
 
 int main(int argc, char** argv) {
