@@ -33,10 +33,11 @@ vector<string> lotery::separarParametros(string entrada) {
     while (ss >> buffer) {
 	        parametros.push_back(buffer);
     }
+/* //teste basico
 	cout<<"criando processo: parametros[0]\n	"<<
 	parametros[1]<<"\n	chegada: "<<
 	parametros[2]<<"\n	tempodE: "<<
-	parametros[3]<<"\n	nice:	 ";
+	parametros[3]<<"\n	nice:	 ";*/
 	return parametros;
 }
 lotery::lotery(){
@@ -45,7 +46,7 @@ lotery::lotery(){
     bool finalizouEntrada = false;
     printf("Simulação de um escalonador LOTTERY SCHEDULER\n"
 			"Digite o processo a ser inserido da seguinte maneira:\n"
-            "nome Instante_de_chegada tempo_de_execução nice\n");
+            "nome Instante_de_chegada tempo_de_execução nice[-20..0]\n");
     while (!finalizouEntrada) {
         getline(std::cin, entrada);
         argumentos = separarParametros(entrada);
@@ -57,7 +58,13 @@ lotery::lotery(){
             printf("Argumentos insuficientes!");
             break;
         }
-		prontos.push_back(*criarProcesso(argumentos));
+		//nice de -20 a 0
+		processoDix *processo=criarProcesso(argumentos);
+		int nice=::atoi(argumentos[3].c_str());
+		for(int n = 41;n-20!=nice;n--){
+			prontos.push_back(*processo);
+			cout<<"ticket:"<<n<<"\n";
+		}
 	}
 }
 lotery::~lotery(){
