@@ -18,7 +18,8 @@ void processoDix::mudarEstado(processoDix::estados novoEstado) {
     this->estadoAtual = novoEstado;
 }
 int processoDix::executar(){
-
+	this->tempoExecucao--;
+	return this->tempoExecucao;
 }
 processoDix::~processoDix() {
 

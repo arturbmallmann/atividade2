@@ -11,12 +11,17 @@
 #include <vector>
 #include <sstream>
 #include <iostream>
-#include "Hash.h"
+#include <stdio.h>
+#include <string>
+//#include "Hash.h"
 #include "processoDix.h"
 using namespace std;
 class lotery{
 	private:
-		typedef Hash<processoDix> Procs;
+		vector<string>separarParametros(string entrada);
+		inline bool isInteger(const std::string & s);
+//		typedef Hash<processoDix> Procs;
+		typedef vector<processoDix> Procs;
 		Procs pcbs;
 		Procs executando;
 		Procs prontos;
@@ -25,6 +30,6 @@ class lotery{
 	public:		
 		lotery();
 		virtual ~lotery();
-		processoDix *criarProcesso(string entrada);
+		processoDix *criarProcesso(vector<string> entrada);
 };
 #endif
