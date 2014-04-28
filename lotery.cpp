@@ -37,6 +37,7 @@ vector<string> lotery::separarParametros(string entrada) {
 	parametros[1]<<"\n	chegada: "<<
 	parametros[2]<<"\n	tempodE: "<<
 	parametros[3]<<"\n	nice:	 ";
+	return parametros;
 }
 lotery::lotery(){
     string entrada;
