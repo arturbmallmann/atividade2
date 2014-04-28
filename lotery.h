@@ -12,7 +12,10 @@
 #include <sstream>
 #include <iostream>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string>
+#include <math.h>
+#include <map>
 //#include "Hash.h"
 #include "processoDix.h"
 using namespace std;
@@ -21,7 +24,10 @@ class lotery{
 		vector<string>separarParametros(string entrada);
 		inline bool isInteger(const std::string & s);
 //		typedef Hash<processoDix> Procs;
-		typedef vector<processoDix> Procs;
+//		typedef vector<processoDix> Procs;
+		typedef map<int,processoDix> Procs;
+		typedef pair<int,processoDix> Par;
+		int nprocs;
 		Procs pcbs;
 		Procs executando;
 		Procs prontos;
@@ -31,5 +37,6 @@ class lotery{
 		lotery();
 		virtual ~lotery();
 		processoDix *criarProcesso(vector<string> entrada);
+		void escalonar();
 };
 #endif

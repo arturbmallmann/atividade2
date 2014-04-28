@@ -33,40 +33,52 @@ vector<string> lotery::separarParametros(string entrada) {
     while (ss >> buffer) {
 	        parametros.push_back(buffer);
     }
-/* //teste basico
-	cout<<"criando processo: parametros[0]\n	"<<
-	parametros[1]<<"\n	chegada: "<<
-	parametros[2]<<"\n	tempodE: "<<
-	parametros[3]<<"\n	nice:	 ";*/
 	return parametros;
 }
+void lotery::escalonar(){
+	int ran=rand % nprocs;	
+	processoDix pro1=prontos[ran];
+	pro1.executar();
+}
 lotery::lotery(){
-    string entrada;
+	string entrada;
     vector<string> argumentos;
     bool finalizouEntrada = false;
     printf("Simulação de um escalonador LOTTERY SCHEDULER\n"
 			"Digite o processo a ser inserido da seguinte maneira:\n"
-            "nome Instante_de_chegada tempo_de_execução nice[-20..0]\n");
+            "nome Instante_de_chegada tempo_de_execução nice[-20..20]\n");
+	int keys;
     while (!finalizouEntrada) {
         getline(std::cin, entrada);
         argumentos = separarParametros(entrada);
-        if (argumentos.size() == 0) {
+        if(argumentos.size()==4){
+			processoDix *processo=criarProcesso(argumentos);
+			int nice=::atoi(argumentos[3].c_str());
+			if (nice>=-20&&nice<=20){
+				for(int n = 41;n-20!=nice;n--){
+		//			prontos.push_back(*processo);
+					keys++;
+					this->prontos.insert( Par(keys,*processo) );
+					cout<<"ticket:"<<n<<"\n";
+				}
+				this->nprocs=keys;
+			}else{cout<<"valor nice nao suportado\n";}
+		}else if (argumentos.size() == 0) {
             finalizouEntrada = true;
-            break;
+        }else if (argumentos.size() != 4) {
+            printf("Argumentos insuficientes!\n");
         }
-        if (argumentos.size() != 4) {
-            printf("Argumentos insuficientes!");
-            break;
-        }
-		//nice de -20 a 0
-		processoDix *processo=criarProcesso(argumentos);
-		int nice=::atoi(argumentos[3].c_str());
-		for(int n = 41;n-20!=nice;n--){
-			prontos.push_back(*processo);
-			cout<<"ticket:"<<n<<"\n";
-		}
 	}
 }
 lotery::~lotery(){
-
+	/*arrumas */
+/*	for(int i=prontos.size()-1;i!=-1;i--){
+		cout<<"deletando ="<<i<<"\n";
+		delete &prontos[i];
+		prontos.pop_back();
+	}
+	for(int i=terminados.size();i!=0;i--){
+		delete &terminados[i];
+		terminados.pop_back();
+	}*/
 }
