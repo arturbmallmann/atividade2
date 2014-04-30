@@ -9,23 +9,26 @@
 #define	PROCESSODIX_H
 #include <cstdlib>
 #include <string>
-
+#define EXECUTANDO 3
+#define PRONTO 2
+#define BLOQUEADO 1
+#define TERMINADO 0
 class processoDix {
 public:
 
-    enum estados {
+/*    enum estados {
         EXECUTANDO,
         PRONTO,
         BLOQUEADO,
         TERMINADO
-    };
+    };*/
     processoDix(const int id,std::string nome, int iniciar, int tempoExecucao, int nice);
     virtual ~processoDix();
 
-    void mudarEstado(estados novoEstado);
+    void mudarEstado(int novoEstado);
 	int executar();
 	int getId();
-	bool comparaEstado(estados estado);
+	bool comparaEstado(int estado);
 	bool operator==(processoDix a);
 private:
 	int id;
@@ -34,7 +37,7 @@ private:
     int tempoExecucao;
 	int tempoExecutado;
     int nice;
-    estados estado;
+    int estado;
 };
 
 

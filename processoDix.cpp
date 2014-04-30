@@ -20,12 +20,15 @@ int processoDix::getId(){
 	return this->id;
 }
 bool processoDix::operator==(processoDix a){
+	std::cout<<"!=======Entrou na comparacao=======!\n";
 	return this->getId() == a.getId();
+//	return (this *) == &a;
 }
-bool processoDix::comparaEstado(estados estado){
+bool processoDix::comparaEstado(int estado){
 	return (this->estado==estado);
 }
-void processoDix::mudarEstado(processoDix::estados novoEstado) {
+//void processoDix::mudarEstado(processoDix::estados novoEstado) {
+void processoDix::mudarEstado(int novoEstado) {
     this->estado = novoEstado;
 }
 using namespace std;
@@ -37,7 +40,7 @@ int processoDix::executar(){
 	//sorteio aleatório de lock aqui...
 	if(restante<=0){
 		this->estado=TERMINADO;
-		return 0;
+		return this->estado;
 		}
 	return 1;//normal
 }

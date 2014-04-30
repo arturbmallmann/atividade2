@@ -34,11 +34,15 @@ void lotery::bloquear(processoDix p){
 
 void lotery::terminar(processoDix p){
 	processoDix *aux;
+	executando.retiraEspecifico(p);
 	while(true){
+		pcbs.retiraEspecifico(p);
 		aux = prontos.retiraEspecifico(p);
-		if(aux!=0)
+		cout<<"returno do retirar"<<(int)aux<<"\n";
+		if(aux!=0){
+			cout<<"tirou\n";
 			terminados.adicionarNoInicio(*aux);
-		else 
+		}else 
 			return;
 	}
 }
@@ -86,10 +90,10 @@ void lotery::preemptar(){ /*
 		prontos.adicionarNoInicio(*antigo);	
 	}
 //	bool ok=false;
-	int ran;
+//	int ran;
 //	while (!ok){
 	if(prontos.tamanho!=0){
-		ran=(rand() % prontos.tamanho)+1;//sortei o ticket que executara [0,tamanho)
+		int ran=(rand() % prontos.tamanho)+1;//sortei o ticket que executara [0,tamanho)
 		cout<<"sorteado:"<<ran<<" prontos: "<<prontos.tamanho<<" \n";
 		processoDix *novo=prontos.retirarDaPosicao(ran);
 //		if(novo->comparaEstado(processoDix::PRONTO)){//aqui temos um pseudo garbage colector hhehe
@@ -113,8 +117,11 @@ void lotery::executar(){
 	processoDix *proc=executando.ponta();
 	cout<<"processo id: "<<proc->getId();
 	int r=proc->executar();
+	
 		switch(r){
-			case 0:cout<<" terminou\n";break;//por fim nem usei...
+			case TERMINADO:
+				cout<<"!========DEVE RETIRAR AGORA=======!\n\n";
+				terminar(*proc);break;//por fim nem usei...
 			default:cout<<" normal\n";
 		}
 	}

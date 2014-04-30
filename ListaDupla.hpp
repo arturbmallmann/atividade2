@@ -153,12 +153,12 @@ T* ListaDupla<T>::retiraEspecifico(T& b){
     if(vazio()){
         return 0;
     }
-    if(&b==cabeca->dado){
+    if(b==*(cabeca->dado)){
         return retirarDoInicio();
     }
        DadosDuplo<T> *avanca = cabeca->proximo;
         for(int i=2;i<tamanho;i++){
-            if(&b == avanca->dado){
+            if(b == *(avanca->dado)){
                 return retirarDaPosicao(i);
                 break;
             }
