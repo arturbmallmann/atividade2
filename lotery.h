@@ -42,6 +42,7 @@ class lotery{
 		void executar();
 		void terminar(processoDix p);
 		void bloquear(processoDix p);
+		void desbloquear();
 		bool chute(int p);
 };
 #endif

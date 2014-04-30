@@ -19,6 +19,11 @@ processoDix::processoDix(int id,std::string nome, int iniciar, int tempoExecucao
 int processoDix::getId(){
 	return this->id;
 }
+
+bool chute(int p){
+	return (rand() % 100)+1 <= 5;
+}
+
 bool processoDix::operator==(processoDix a){
 	std::cout<<"!=======Entrou na comparacao=======!\n";
 	return this->getId() == a.getId();
@@ -38,11 +43,12 @@ int processoDix::executar(){
 	cout<<"Executando a decrementacao do meu valor. Restante: "<<
 	restante<<"\n";
 	//sorteio aleatório de lock aqui...
-	if(restante<=0){
+	if(chute(5)){
+		this->estado=BLOQUEADO;
+	}else if(restante<=0){
 		this->estado=TERMINADO;
-		return this->estado;
-		}
-	return 1;//normal
+	}
+	return estado;//normal
 }
 processoDix::~processoDix() {
 

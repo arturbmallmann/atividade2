@@ -13,6 +13,7 @@ int lotery::loop(){
 			<<"	Block= "<<bloqueados.tamanho<<"\n"
 			<<"	Terminados= "<<terminados.tamanho<<"\n";
 		sleep(1);
+		desbloquear();
 		timeCount++;
 		preemptar();
 		executar();
@@ -21,6 +22,13 @@ int lotery::loop(){
 	return 0;
 }
 
+void lotery::desbloquear(){
+	if(chute(5)==true){
+		processoDix* aux = bloqueados.retirarDoFim();
+		prontos.adicionarNoInicio(*aux);
+	}
+		
+}
 void lotery::bloquear(processoDix p){
 	processoDix *aux;
 	while(true){
@@ -122,6 +130,8 @@ void lotery::executar(){
 			case TERMINADO:
 				cout<<"!========DEVE RETIRAR AGORA=======!\n\n";
 				terminar(*proc);break;//por fim nem usei...
+			case BLOQUEADO:
+				bloquear(*proc);break;
 			default:cout<<" normal\n";
 		}
 	}
