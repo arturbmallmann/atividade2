@@ -1,6 +1,6 @@
 /* 
  * File:   main.cpp
- * Author: decker
+ * Author: decker,artur
  *
  * Created on April 24, 2014, 8:55 AM
  */
@@ -17,6 +17,7 @@ processoDix *lotery::criarProcesso(vector<string> entrada) {
     /* Padrão: Nome instanteChegada TempoExec Nice*/
     return new processoDix(nome,chegada,tempoExecucao,nice);
 }
+
 inline bool lotery::isInteger(const string & s) {
     if ((s.empty()) || ((!isdigit(s[0])) && (s[0] != '-') && (s[0] != '+'))) {
         return false;
@@ -25,6 +26,7 @@ inline bool lotery::isInteger(const string & s) {
     strtol(s.c_str(), &p, 10);
     return (*p == 0);
 }
+
 vector<string> lotery::separarParametros(string entrada) {
     string buffer;
     vector<string> parametros;
@@ -35,11 +37,15 @@ vector<string> lotery::separarParametros(string entrada) {
     }
 	return parametros;
 }
+
 void lotery::escalonar(){
-	int ran=rand % nprocs;	
-	processoDix pro1=prontos[ran];
-	pro1.executar();
+	int ran=rand() % prontos.tamanho;
+	cout<<"ticket sorteado: \n"<<ran<<"\n";
+	processoDix *pro1=prontos.retirarDaPosicao(ran);
+//	cout<<"processo de nome"<<
+	pro1->executar();
 }
+
 lotery::lotery(){
 	string entrada;
     vector<string> argumentos;
@@ -56,11 +62,11 @@ lotery::lotery(){
 			int nice=::atoi(argumentos[3].c_str());
 			if (nice>=-20&&nice<=20){
 				for(int n = 41;n-20!=nice;n--){
-		//			prontos.push_back(*processo);
 					keys++;
-					this->prontos.insert( Par(keys,*processo) );
+					this->prontos.adicionarNoFim(*processo);
 					cout<<"ticket:"<<n<<"\n";
 				}
+				this->pcbs.adicionarNoFim(*processo);
 				this->nprocs=keys;
 			}else{cout<<"valor nice nao suportado\n";}
 		}else if (argumentos.size() == 0) {
