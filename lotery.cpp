@@ -6,15 +6,26 @@
  */
 
 #include "lotery.h"
+int lotery::loop(){
+	do{
+		cout<<"PCBs= "<<pcbs.tamanho<"\n";
+		sleep(1);
+		timeCount++;
+		preemptar();
+		executar();
+	}while(pcbs.tamanho!=0);
+	return 0;
+}
 
-processoDix *lotery::criarProcesso(vector<string> entrada,int id,int chegada) {
+processoDix *lotery::criarProcesso(vector<string> entrada,int id) {
     string nome = entrada[0];
-//    string instanteChegada = entrada[1];
-    string stringTempoExecucao = entrada[1];//2
-    int tempoExecucao = ::atof(stringTempoExecucao.c_str());
-    int nice = ::atoi(entrada[2].c_str());//3 //lembrete atoi> int,atof>double
+	string stringTempoIniciar = entrada[1];
+    int tempoIniciar = ::atoi(stringTempoIniciar.c_str());
+    string stringTempoExecucao = entrada[2];//2
+    int tempoExecucao = ::atoi(stringTempoExecucao.c_str());
+    int nice = ::atoi(entrada[3].c_str());//3 //lembrete atoi> int,atof>double
     /* Padrão: Nome instanteChegada TempoExec Nice*/
-    return new processoDix(id,nome,chegada,tempoExecucao,nice);
+    return new processoDix(id,nome,tempoIniciar,tempoExecucao,nice);
 }
 
 inline bool lotery::isInteger(const string & s) {
@@ -50,15 +61,16 @@ while (!ok){
 		ran=(rand() % prontos.tamanho)+1;//sortei o ticket que executara [0,tamanho)
 		cout<<"sorteado:"<<ran<<" prontos: "<<prontos.tamanho<<" \n";
 		processoDix *novo=prontos.retirarDaPosicao(ran);
-		if(novo->comparaEstado(processoDix::PRONTO)){
+		if(novo->comparaEstado(processoDix::PRONTO)){//aqui temos um pseudo garbage colector hhehe
 				ok=true;
 				executando.adicionarNoInicio(*novo);
 			}else if(novo->comparaEstado(processoDix::BLOQUEADO)){
 				bloqueados.adicionarNoInicio(*novo);
 			}else if(novo->comparaEstado(processoDix::TERMINADO)){
-				cout<<"tirando tickets de processo terminado id:"<<novo->getId()<<"tickets restantes="<<prontos.tamanho<<"\n";
+//				cout<<"tirando tickets de processo terminado id: "<<novo->getId()<<"tickets restantes= "<<prontos.tamanho<<"\n";
 				terminados.adicionarNoInicio(*novo);
-//				pcbs.retiraEspecifico(*novo);
+				if(pcbs.retiraEspecifico(*novo)==0)
+					cout<<"processo: "<<novo->getId()<<"deixou lixo mas non ecsiste mais\n";
 			}
 	}
 }
@@ -84,16 +96,16 @@ lotery::lotery(){
     bool finalizouEntrada = false;
     printf("Simulação de um escalonador LOTTERY SCHEDULER\n"
 			"Digite o processo a ser inserido da seguinte maneira:\n"
-            "nome [tempo necessário] nice[-20..20]\n");
+            "nome [hora de comecar] [tempo do programa] nice[-20..20]\n");
 	int keys;
     while (!finalizouEntrada) {
         getline(std::cin, entrada);
         argumentos = separarParametros(entrada);
 		timeCount++;//gambiarra we know..
-        if(argumentos.size()==3){
+        if(argumentos.size()==4){
 			idCount++;
-			processoDix *processo=criarProcesso(argumentos,idCount,timeCount);
-			int nice=::atoi(argumentos[2].c_str());
+			processoDix *processo=criarProcesso(argumentos,idCount);
+			int nice=::atoi(argumentos[3].c_str());
 			if (nice>=-20&&nice<=20){
 				for(int n = 41;n-20!=nice;n--){
 					keys++;

@@ -18,6 +18,7 @@
 #include <map>
 #include "processoDix.h"
 #include "ListaDupla.h"
+#include "unistd.h"
 using namespace std;
 class lotery{
 	private:
@@ -25,6 +26,7 @@ class lotery{
 		inline bool isInteger(const std::string & s);
 		typedef ListaDupla<processoDix> Procs;
 		int idCount;
+		int timeCount;
 
 		Procs pcbs;
 		Procs executando;
@@ -33,9 +35,9 @@ class lotery{
 		Procs terminados;
 	public:		
 		lotery();
-		int timeCount;
+		int loop();
 		virtual ~lotery();
-		processoDix *criarProcesso(vector<string> entrada,int id,int time);
+		processoDix *criarProcesso(vector<string> entrada,int id);
 		void preemptar();
 		void executar();
 		void terminar();

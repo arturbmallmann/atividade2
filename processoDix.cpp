@@ -7,10 +7,10 @@
 
 #include "processoDix.h"
 #include <iostream>
-processoDix::processoDix(int id,std::string nome, int instanteChegada, int tempoExecucao, int nice) {
+processoDix::processoDix(int id,std::string nome, int iniciar, int tempoExecucao, int nice) {
 	this->id = id;
 	this->nome = nome;
-    this->instanteChegada = instanteChegada;
+    this->iniciar = iniciar;
 	this->tempoExecutado = 0;
     this->nice = nice;
     this->tempoExecucao = tempoExecucao;
@@ -18,6 +18,9 @@ processoDix::processoDix(int id,std::string nome, int instanteChegada, int tempo
 }
 int processoDix::getId(){
 	return this->id;
+}
+bool processoDix::operator==(processoDix a){
+	return this->getId() == a.getId();
 }
 bool processoDix::comparaEstado(estados estado){
 	return (this->estado==estado);
@@ -41,5 +44,3 @@ int processoDix::executar(){
 processoDix::~processoDix() {
 
 }
-
-

@@ -19,16 +19,18 @@ public:
         BLOQUEADO,
         TERMINADO
     };
-    processoDix(const int id,std::string nome, int instanteChegada, int tempoExecucao, int nice);
-	int executar();
-    void mudarEstado(estados novoEstado);
+    processoDix(const int id,std::string nome, int iniciar, int tempoExecucao, int nice);
     virtual ~processoDix();
+
+    void mudarEstado(estados novoEstado);
+	int executar();
 	int getId();
 	bool comparaEstado(estados estado);
+	bool operator==(processoDix a);
 private:
 	int id;
     std::string nome;
-    int instanteChegada;
+    int iniciar;
     int tempoExecucao;
 	int tempoExecutado;
     int nice;
