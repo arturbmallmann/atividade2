@@ -1,8 +1,11 @@
 #include "lotery.h"
+#include "unistd.h"
 int main(int argc,char** argv){
 	lotery lot;
 	while (true){
-		lot.escalonar();
+		sleep(1);
+		lot.preemptar();
+		lot.executar();
 	}
 //	lot.~lotery();
 }

@@ -19,6 +19,7 @@ class ListaDupla
        Tipo* retirarDoInicio();
        Tipo* retirarDaPosicao(int pos);
        Tipo* retiraEspecifico(Tipo &a);
+	   Tipo* ponta();
        void mostrar();
        int tamanho;
     protected:

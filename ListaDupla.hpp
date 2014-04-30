@@ -190,4 +190,8 @@ T* ListaDupla<T>::get(int n) {
         }
        return pos->dado;
 }
+template <class T>
+T* ListaDupla<T>::ponta(){
+	return cabeca->anterior->dado;
+}
 #endif

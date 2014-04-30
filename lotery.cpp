@@ -38,12 +38,30 @@ vector<string> lotery::separarParametros(string entrada) {
 	return parametros;
 }
 
-void lotery::escalonar(){
+void lotery::preemptar(){
+	cout<<"entrou no preemt! prontos:"<<prontos.tamanho
+		<<" executando:"<<executando.tamanho<<"\n";
+	if(executando.tamanho!=0){
+		processoDix *antigo = executando.retirarDoFim();
+		prontos.adicionarNoFim(*antigo);
+		/*tratar quanto bloqueia e quando termina */
+	}
 	int ran=rand() % prontos.tamanho;
-	cout<<"ticket sorteado: \n"<<ran<<"\n";
-	processoDix *pro1=prontos.retirarDaPosicao(ran);
+	cout<<"Existem "<<prontos.tamanho<<" ticket sorteado: "<<ran<<"\n";
+	processoDix *novo=prontos.retirarDaPosicao(ran);
+
 //	cout<<"processo de nome"<<
-	pro1->executar();
+	executando.adicionarNoInicio(*novo);
+}
+
+void lotery::executar(){
+	if(executando.tamanho!=0){
+	int r=executando.ponta()->executar();
+		switch(r){
+			case 0:cout<<"terminar\n";
+			default:cout<<"normal\n";
+		}
+	}
 }
 
 lotery::lotery(){
@@ -67,7 +85,6 @@ lotery::lotery(){
 					cout<<"ticket:"<<n<<"\n";
 				}
 				this->pcbs.adicionarNoFim(*processo);
-				this->nprocs=keys;
 			}else{cout<<"valor nice nao suportado\n";}
 		}else if (argumentos.size() == 0) {
             finalizouEntrada = true;
