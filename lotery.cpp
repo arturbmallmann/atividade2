@@ -8,13 +8,39 @@
 #include "lotery.h"
 int lotery::loop(){
 	do{
-		cout<<"PCBs= "<<pcbs.tamanho<"\n";
+		cout<<"PCBs= "<<pcbs.tamanho<<"\n"
+			<<"tickets:\n"
+			<<"	Block= "<<bloqueados.tamanho<<"\n"
+			<<"	Terminados= "<<terminados.tamanho<<"\n";
 		sleep(1);
 		timeCount++;
 		preemptar();
 		executar();
 	}while(pcbs.tamanho!=0);
+	cout<<"\nterminado\n";
 	return 0;
+}
+
+void lotery::bloquear(processoDix p){
+	processoDix *aux;
+	while(true){
+		aux = prontos.retiraEspecifico(p);
+		if(aux!=0)
+			bloqueados.adicionarNoInicio(*aux);
+		else
+			return;
+	}
+}
+
+void lotery::terminar(processoDix p){
+	processoDix *aux;
+	while(true){
+		aux = prontos.retiraEspecifico(p);
+		if(aux!=0)
+			terminados.adicionarNoInicio(*aux);
+		else 
+			return;
+	}
 }
 
 processoDix *lotery::criarProcesso(vector<string> entrada,int id) {
@@ -48,6 +74,10 @@ vector<string> lotery::separarParametros(string entrada) {
 	return parametros;
 }
 
+bool lotery::chute(int p){
+	return (rand() % 100)+1 <= 5;
+}
+
 void lotery::preemptar(){ /*
 	cout<<"entrou no preemt! prontos:"<<prontos.tamanho
 		<<" executando:"<<executando.tamanho<<"\n";// */
@@ -55,35 +85,37 @@ void lotery::preemptar(){ /*
 		processoDix *antigo = executando.retirarDoFim();
 		prontos.adicionarNoInicio(*antigo);	
 	}
-	bool ok=false;
+//	bool ok=false;
 	int ran;
-while (!ok){
+//	while (!ok){
+	if(prontos.tamanho!=0){
 		ran=(rand() % prontos.tamanho)+1;//sortei o ticket que executara [0,tamanho)
 		cout<<"sorteado:"<<ran<<" prontos: "<<prontos.tamanho<<" \n";
 		processoDix *novo=prontos.retirarDaPosicao(ran);
-		if(novo->comparaEstado(processoDix::PRONTO)){//aqui temos um pseudo garbage colector hhehe
-				ok=true;
-				executando.adicionarNoInicio(*novo);
-			}else if(novo->comparaEstado(processoDix::BLOQUEADO)){
+//		if(novo->comparaEstado(processoDix::PRONTO)){//aqui temos um pseudo garbage colector hhehe
+//				ok=true;*/
+		executando.adicionarNoInicio(*novo);
+
+/*			}else if(novo->comparaEstado(processoDix::BLOQUEADO)){
 				bloqueados.adicionarNoInicio(*novo);
 			}else if(novo->comparaEstado(processoDix::TERMINADO)){
-//				cout<<"tirando tickets de processo terminado id: "<<novo->getId()<<"tickets restantes= "<<prontos.tamanho<<"\n";
+				cout<<"tirando tickets de processo terminado id: "<<novo->getId()<<"tickets restantes= "<<prontos.tamanho<<"\n";
 				terminados.adicionarNoInicio(*novo);
 				if(pcbs.retiraEspecifico(*novo)==0)
 					cout<<"processo: "<<novo->getId()<<"deixou lixo mas non ecsiste mais\n";
 			}
+		}// */
 	}
 }
 
 void lotery::executar(){
 	if(executando.tamanho!=0){
 	processoDix *proc=executando.ponta();
-	cout<<"executando processo id:"<<proc->getId()<<"\n";
+	cout<<"processo id: "<<proc->getId();
 	int r=proc->executar();
-	
 		switch(r){
-			case 0:cout<<"terminou\n";
-			default:cout<<"normal\n";
+			case 0:cout<<" terminou\n";break;//por fim nem usei...
+			default:cout<<" normal\n";
 		}
 	}
 }

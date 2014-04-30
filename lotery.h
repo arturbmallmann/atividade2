@@ -40,7 +40,8 @@ class lotery{
 		processoDix *criarProcesso(vector<string> entrada,int id);
 		void preemptar();
 		void executar();
-		void terminar();
-		void bloquear();
+		void terminar(processoDix p);
+		void bloquear(processoDix p);
+		bool chute(int p);
 };
 #endif

@@ -1,6 +1,6 @@
 /* 
  * File:   processoDix.h
- * Author: decker
+ * Author: decker,artur
  *
  * Created on April 24, 2014, 9:31 AM
  */

@@ -1,6 +1,6 @@
 /* 
  * File:   processoDix.cpp
- * Author: decker
+ * Author: decker,artur
  * 
  * Created on April 24, 2014, 9:31 AM
  */
@@ -35,7 +35,7 @@ int processoDix::executar(){
 	cout<<"Executando a decrementacao do meu valor. Restante: "<<
 	restante<<"\n";
 	//sorteio aleatório de lock aqui...
-	if(restante==0){
+	if(restante<=0){
 		this->estado=TERMINADO;
 		return 0;
 		}
