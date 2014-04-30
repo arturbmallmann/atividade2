@@ -7,22 +7,36 @@
 
 #include "processoDix.h"
 #include <iostream>
-processoDix::processoDix(std::string nome, double instanteChegada, int tempoExecucao, int nice) {
-    this->nome = nome;
+processoDix::processoDix(int id,std::string nome, int instanteChegada, int tempoExecucao, int nice) {
+	this->id = id;
+	this->nome = nome;
     this->instanteChegada = instanteChegada;
+	this->tempoExecutado = 0;
     this->nice = nice;
     this->tempoExecucao = tempoExecucao;
+	this->estado = PRONTO;
 }
-
+int processoDix::getId(){
+	return this->id;
+}
+bool processoDix::comparaEstado(estados estado){
+	return (this->estado==estado);
+}
 void processoDix::mudarEstado(processoDix::estados novoEstado) {
-    this->estadoAtual = novoEstado;
+    this->estado = novoEstado;
 }
 using namespace std;
 int processoDix::executar(){
-	this->tempoExecucao--;
-	cout<<"executando a decrementacao do meu valor restante:\n"<<
-	tempoExecucao<<"\n";
-	return this->tempoExecucao;
+	this->tempoExecutado++;
+	int restante = tempoExecucao-tempoExecutado;
+	cout<<"Executando a decrementacao do meu valor. Restante: "<<
+	restante<<"\n";
+	//sorteio aleatório de lock aqui...
+	if(restante==0){
+		this->estado=TERMINADO;
+		return 0;
+		}
+	return 1;//normal
 }
 processoDix::~processoDix() {
 

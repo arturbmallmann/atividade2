@@ -24,6 +24,8 @@ class lotery{
 		vector<string>separarParametros(string entrada);
 		inline bool isInteger(const std::string & s);
 		typedef ListaDupla<processoDix> Procs;
+		int idCount;
+
 		Procs pcbs;
 		Procs executando;
 		Procs prontos;
@@ -31,8 +33,9 @@ class lotery{
 		Procs terminados;
 	public:		
 		lotery();
+		int timeCount;
 		virtual ~lotery();
-		processoDix *criarProcesso(vector<string> entrada);
+		processoDix *criarProcesso(vector<string> entrada,int id,int time);
 		void preemptar();
 		void executar();
 		void terminar();

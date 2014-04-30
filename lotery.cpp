@@ -7,15 +7,14 @@
 
 #include "lotery.h"
 
-processoDix *lotery::criarProcesso(vector<string> entrada) {
+processoDix *lotery::criarProcesso(vector<string> entrada,int id,int chegada) {
     string nome = entrada[0];
-    string instanteChegada = entrada[1];
-    string stringTempoExecucao = entrada[2];
+//    string instanteChegada = entrada[1];
+    string stringTempoExecucao = entrada[1];//2
     int tempoExecucao = ::atof(stringTempoExecucao.c_str());
-	double chegada = ::atof(instanteChegada.c_str());
-    int nice = ::atoi(entrada[3].c_str());
+    int nice = ::atoi(entrada[2].c_str());//3 //lembrete atoi> int,atof>double
     /* Padrão: Nome instanteChegada TempoExec Nice*/
-    return new processoDix(nome,chegada,tempoExecucao,nice);
+    return new processoDix(id,nome,chegada,tempoExecucao,nice);
 }
 
 inline bool lotery::isInteger(const string & s) {
@@ -38,46 +37,63 @@ vector<string> lotery::separarParametros(string entrada) {
 	return parametros;
 }
 
-void lotery::preemptar(){
+void lotery::preemptar(){ /*
 	cout<<"entrou no preemt! prontos:"<<prontos.tamanho
-		<<" executando:"<<executando.tamanho<<"\n";
-	if(executando.tamanho!=0){
+		<<" executando:"<<executando.tamanho<<"\n";// */
+	if(executando.tamanho!=0){//retira do executando
 		processoDix *antigo = executando.retirarDoFim();
-		prontos.adicionarNoFim(*antigo);
-		/*tratar quanto bloqueia e quando termina */
+		prontos.adicionarNoInicio(*antigo);	
 	}
-	int ran=rand() % prontos.tamanho;
-	cout<<"Existem "<<prontos.tamanho<<" ticket sorteado: "<<ran<<"\n";
-	processoDix *novo=prontos.retirarDaPosicao(ran);
-
-//	cout<<"processo de nome"<<
-	executando.adicionarNoInicio(*novo);
+	bool ok=false;
+	int ran;
+while (!ok){
+		ran=(rand() % prontos.tamanho)+1;//sortei o ticket que executara [0,tamanho)
+		cout<<"sorteado:"<<ran<<" prontos: "<<prontos.tamanho<<" \n";
+		processoDix *novo=prontos.retirarDaPosicao(ran);
+		if(novo->comparaEstado(processoDix::PRONTO)){
+				ok=true;
+				executando.adicionarNoInicio(*novo);
+			}else if(novo->comparaEstado(processoDix::BLOQUEADO)){
+				bloqueados.adicionarNoInicio(*novo);
+			}else if(novo->comparaEstado(processoDix::TERMINADO)){
+				cout<<"tirando tickets de processo terminado id:"<<novo->getId()<<"tickets restantes="<<prontos.tamanho<<"\n";
+				terminados.adicionarNoInicio(*novo);
+//				pcbs.retiraEspecifico(*novo);
+			}
+	}
 }
 
 void lotery::executar(){
 	if(executando.tamanho!=0){
-	int r=executando.ponta()->executar();
+	processoDix *proc=executando.ponta();
+	cout<<"executando processo id:"<<proc->getId()<<"\n";
+	int r=proc->executar();
+	
 		switch(r){
-			case 0:cout<<"terminar\n";
+			case 0:cout<<"terminou\n";
 			default:cout<<"normal\n";
 		}
 	}
 }
 
 lotery::lotery(){
+	idCount = 0;
+	timeCount = 0;
 	string entrada;
     vector<string> argumentos;
     bool finalizouEntrada = false;
     printf("Simulação de um escalonador LOTTERY SCHEDULER\n"
 			"Digite o processo a ser inserido da seguinte maneira:\n"
-            "nome Instante_de_chegada tempo_de_execução nice[-20..20]\n");
+            "nome [tempo necessário] nice[-20..20]\n");
 	int keys;
     while (!finalizouEntrada) {
         getline(std::cin, entrada);
         argumentos = separarParametros(entrada);
-        if(argumentos.size()==4){
-			processoDix *processo=criarProcesso(argumentos);
-			int nice=::atoi(argumentos[3].c_str());
+		timeCount++;//gambiarra we know..
+        if(argumentos.size()==3){
+			idCount++;
+			processoDix *processo=criarProcesso(argumentos,idCount,timeCount);
+			int nice=::atoi(argumentos[2].c_str());
 			if (nice>=-20&&nice<=20){
 				for(int n = 41;n-20!=nice;n--){
 					keys++;
@@ -88,7 +104,7 @@ lotery::lotery(){
 			}else{cout<<"valor nice nao suportado\n";}
 		}else if (argumentos.size() == 0) {
             finalizouEntrada = true;
-        }else if (argumentos.size() != 4) {
+        }else {
             printf("Argumentos insuficientes!\n");
         }
 	}
