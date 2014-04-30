@@ -1,0 +1,8 @@
+compilar
+make 
+
+executar
+./escalonador
+
+biblioteca padrao posix e c++, é só compilar :)
+Alunos: ARtur Mallmann e Luis Decker

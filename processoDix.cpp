@@ -11,10 +11,9 @@ processoDix::processoDix(int id,std::string nome, int iniciar, int tempoExecucao
 	this->id = id;
 	this->nome = nome;
     this->iniciar = iniciar;
-	this->tempoExecutado = 0;
+//	this->tempoExecutado = 0;
     this->nice = nice;
     this->tempoExecucao = tempoExecucao;
-	this->estado = PRONTO;
 }
 int processoDix::getId(){
 	return this->id;
@@ -25,30 +24,26 @@ bool chute(int p){
 }
 
 bool processoDix::operator==(processoDix a){
-	std::cout<<"!=======Entrou na comparacao=======!\n";
 	return this->getId() == a.getId();
-//	return (this *) == &a;
 }
-bool processoDix::comparaEstado(int estado){
-	return (this->estado==estado);
-}
-//void processoDix::mudarEstado(processoDix::estados novoEstado) {
-void processoDix::mudarEstado(int novoEstado) {
-    this->estado = novoEstado;
-}
+
 using namespace std;
 int processoDix::executar(){
-	this->tempoExecutado++;
-	int restante = tempoExecucao-tempoExecutado;
+//	this->tempoExecutado++;
+//	int restante = tempoExecucao-tempoExecutado;
+	tempoExecucao--;
 	cout<<"Executando a decrementacao do meu valor. Restante: "<<
-	restante<<"\n";
+	tempoExecucao;
+//	restante<<"\n";
 	//sorteio aleatório de lock aqui...
+	if(tempoExecucao==0){
+//	if(restante==0){
+		return TERMINADO;
+		}
 	if(chute(5)){
-		this->estado=BLOQUEADO;
-	}else if(restante<=0){
-		this->estado=TERMINADO;
+		return BLOQUEADO;
 	}
-	return estado;//normal
+	return PRONTO;//normal
 }
 processoDix::~processoDix() {
 

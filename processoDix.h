@@ -25,10 +25,8 @@ public:
     processoDix(const int id,std::string nome, int iniciar, int tempoExecucao, int nice);
     virtual ~processoDix();
 
-    void mudarEstado(int novoEstado);
 	int executar();
 	int getId();
-	bool comparaEstado(int estado);
 	bool operator==(processoDix a);
 private:
 	int id;
@@ -37,7 +35,6 @@ private:
     int tempoExecucao;
 	int tempoExecutado;
     int nice;
-    int estado;
 };
 
 

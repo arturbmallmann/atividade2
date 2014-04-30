@@ -14,7 +14,7 @@ int lotery::loop(){
 			<<"	Terminados= "<<terminados.tamanho<<"\n";
 		sleep(1);
 		desbloquear();
-		timeCount++;
+//		timeCount++;
 		preemptar();
 		executar();
 	}while(pcbs.tamanho!=0);
@@ -23,30 +23,43 @@ int lotery::loop(){
 }
 
 void lotery::desbloquear(){
+	processoDix *aux;
 	if(chute(5)==true){
-		processoDix* aux = bloqueados.retirarDoFim();
-		prontos.adicionarNoInicio(*aux);
+			if(bloqueados.tamanho!=0){
+				int ran= 1 + (rand() % bloqueados.tamanho);//sortei o ticket que executara [0,tamanho)
+				aux=bloqueados.retirarDaPosicao(ran);
+				prontos.adicionarNoInicio(*aux);
+			
+//		cout<<"Desbloqueando ID="<<aux->getId()<<"\n";
+			while(true){
+				aux = bloqueados.retiraEspecifico(*aux);//enquanto ouver ticket ele manda pra prontos
+				if(aux!=0)
+					prontos.adicionarNoInicio(*aux);
+				else
+					return;
+			}
+		}
 	}
-		
 }
 void lotery::bloquear(processoDix p){
 	processoDix *aux;
+	executando.retiraEspecifico(p);
+	bloqueados.adicionarNoInicio(p);
 	while(true){
 		aux = prontos.retiraEspecifico(p);
 		if(aux!=0)
-			bloqueados.adicionarNoInicio(*aux);
+			bloqueados.adicionarNoInicio(p);
 		else
 			return;
 	}
 }
 
-void lotery::terminar(processoDix p){
-	processoDix *aux;
-	executando.retiraEspecifico(p);
+void lotery::terminar(processoDix p){//aqui ta indo lindo
+	processoDix *aux=&p;
+	executando.retiraEspecifico(*aux);
+	pcbs.retiraEspecifico(*aux);
 	while(true){
-		pcbs.retiraEspecifico(p);
 		aux = prontos.retiraEspecifico(p);
-		cout<<"returno do retirar"<<(int)aux<<"\n";
 		if(aux!=0){
 			cout<<"tirou\n";
 			terminados.adicionarNoInicio(*aux);
@@ -90,33 +103,16 @@ bool lotery::chute(int p){
 	return (rand() % 100)+1 <= 5;
 }
 
-void lotery::preemptar(){ /*
-	cout<<"entrou no preemt! prontos:"<<prontos.tamanho
-		<<" executando:"<<executando.tamanho<<"\n";// */
-	if(executando.tamanho!=0){//retira do executando
-		processoDix *antigo = executando.retirarDoFim();
+void lotery::preemptar(){
+	if(executando.tamanho!=0){
+		processoDix *antigo = executando.retirarDoInicio();
 		prontos.adicionarNoInicio(*antigo);	
 	}
-//	bool ok=false;
-//	int ran;
-//	while (!ok){
 	if(prontos.tamanho!=0){
-		int ran=(rand() % prontos.tamanho)+1;//sortei o ticket que executara [0,tamanho)
+		int ran= 1 + (rand() % prontos.tamanho);//sortei o ticket que executara [0,tamanho) + 1 = [1 .. tamanho]
 		cout<<"sorteado:"<<ran<<" prontos: "<<prontos.tamanho<<" \n";
 		processoDix *novo=prontos.retirarDaPosicao(ran);
-//		if(novo->comparaEstado(processoDix::PRONTO)){//aqui temos um pseudo garbage colector hhehe
-//				ok=true;*/
-		executando.adicionarNoInicio(*novo);
-
-/*			}else if(novo->comparaEstado(processoDix::BLOQUEADO)){
-				bloqueados.adicionarNoInicio(*novo);
-			}else if(novo->comparaEstado(processoDix::TERMINADO)){
-				cout<<"tirando tickets de processo terminado id: "<<novo->getId()<<"tickets restantes= "<<prontos.tamanho<<"\n";
-				terminados.adicionarNoInicio(*novo);
-				if(pcbs.retiraEspecifico(*novo)==0)
-					cout<<"processo: "<<novo->getId()<<"deixou lixo mas non ecsiste mais\n";
-			}
-		}// */
+		executando.adicionarNoFim(*novo);
 	}
 }
 

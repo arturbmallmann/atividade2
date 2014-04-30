@@ -38,7 +38,7 @@ DadosDuplo<T>::~DadosDuplo() {
 
 template <typename T>
 bool DadosDuplo<T>::operator==(DadosDuplo<T> a) {
-	std::cout<<"entrou no op == de DadosDuplos ==============!\n";
+	//std::cout<<"entrou no op == de DadosDuplos ==============!\n";
     if ( this->dado == a->dado )return true;
     return false;
 }
